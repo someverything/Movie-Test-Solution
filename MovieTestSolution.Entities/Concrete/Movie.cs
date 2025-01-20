@@ -9,8 +9,16 @@ namespace MovieTestSolution.Entities.Concrete
 {
     public class Movie : BaseEntity
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int MyProperty { get; set; }
+        public string Title { get; set; }                     
+        public string Description { get; set; }              
+        public Guid RatingId { get; set; }                  
+        public Rating Rating { get; set; }                   
+        public Guid ViewsId { get; set; }                   
+        public Views Views { get; set; }                    
+        public ICollection<Studio> Studios { get; set; }
+        public ICollection<Actor> Actors { get; set; }
+        public ICollection<Genre> Genres { get; set; }      
+        public string CreatedBy { get; set; }                
+        public string? UpdatedBy { get; set; }
     }
 }
