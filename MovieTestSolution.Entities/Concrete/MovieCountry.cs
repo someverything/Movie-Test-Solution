@@ -1,5 +1,4 @@
-﻿using MovieTestSolution.Entities.Concrete.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Entities.Concrete
 {
-    public class Views : BaseEntity
+    public class MovieCountry
     {
-        public int Count { get; set; }
+        public Guid MovieId { get; set; }
         public Movie Movie { get; set; }
+        public Country Country { get; set; }
+        public Guid CountryId { get; set; }
     }
 }

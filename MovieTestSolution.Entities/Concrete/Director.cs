@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Entities.Concrete
 {
-    public class Country : BaseEntity
+    public class Director : BaseEntity
     {
         public string Name { get; set; }
+        public ICollection<Movie> Movies { get; set; }
     }
 }

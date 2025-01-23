@@ -1,15 +1,15 @@
 ﻿using MovieTestSolution.Entities.Concrete.Common;
+using MovieTestSolution.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTestSolution.Entities.Concrete
+namespace MovieTestSolution.Entities.DTOs.ActorsDTOs
 {
-    public class Rating : BaseEntity
+    public class CreaateActorDTO
     {
-        public Decimal Rating { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        public string Name { get; set; }
     }
 }
