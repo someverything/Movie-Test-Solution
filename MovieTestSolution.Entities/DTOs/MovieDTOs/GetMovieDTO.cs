@@ -1,9 +1,7 @@
 ﻿using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using MovieTestSolution.Entities.DTOs.CountryDTOs;
 using MovieTestSolution.Entities.DTOs.GenreDTOs;
-using MovieTestSolution.Entities.DTOs.RatingDTOs;
 using MovieTestSolution.Entities.DTOs.StudioDTOs;
-using MovieTestSolution.Entities.DTOs.ViewsDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
