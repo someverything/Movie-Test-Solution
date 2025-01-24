@@ -10,6 +10,6 @@ namespace MovieTestSolution.Entities.Concrete
     public class Studio : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<MovieStudio> MovieStudios { get; set; }
     }
 }

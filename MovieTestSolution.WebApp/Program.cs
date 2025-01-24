@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using MovieTestSolution.Business.DependencyResolver;
+using MovieTestSolution.DataAccess.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-
+builder.Services.AddBusinessServices();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

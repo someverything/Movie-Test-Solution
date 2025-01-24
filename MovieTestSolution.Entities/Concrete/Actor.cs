@@ -10,6 +10,6 @@ namespace MovieTestSolution.Entities.Concrete
     public class Actor : BaseEntity
     {
         public string Name { get; set; }
-        public ICollection<Movie> Movies { get; set; }
+        public ICollection<MovieActor> MovieActors { get; set; }
     }
 }
