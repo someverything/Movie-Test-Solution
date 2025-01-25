@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTestSolution.DataAccess.Concrete
+namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 {
     public class AppDbContext : DbContext
     {

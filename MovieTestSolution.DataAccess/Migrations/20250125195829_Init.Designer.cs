@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MovieTestSolution.DataAccess.Concrete;
+using MovieTestSolution.DataAccess.Concrete.EntityFramework;
 
 #nullable disable
 
 namespace MovieTestSolution.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250124171632_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250125195829_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
