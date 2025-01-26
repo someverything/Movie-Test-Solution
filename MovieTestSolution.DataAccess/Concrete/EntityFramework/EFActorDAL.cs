@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Core.DataAccess.EntityFramework;
 using MovieTestSolution.DataAccess.Abstract;
@@ -52,17 +53,25 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             }
         }
 
-        public Task DeleteActorAsync(Guid Id)
+        public async Task DeleteActorAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var actor = _context.Actors.AsNoTracking().FirstOrDefault(x => x.Id == Id);
+            if (actor != null) _context.Actors.Remove(actor);
+            await (_context.SaveChangesAsync());
         }
 
-        public GetActorDTO GetActorDTO(Guid Id)
+        public GetActorDTO GetActor(Guid Id)
         {
-            throw new NotImplementedException();
+            if (Id == Guid.Empty) throw new ArgumentException("Invalid actor ID provided");
+
+            var actor = _context.Actors.AsNoTracking().FirstOrDefault(x => x.Id == Id);
+            
+            if(actor == null)  throw new ArgumentException("There is no data");
+
+            return _mapper.Map<GetActorDTO>(actor);
         }
 
-        public ICollection<GetActorDTO> GetActors()
+        public ICollection<GetActorDTO> GetAllActors()
         {
             throw new NotImplementedException();
         }

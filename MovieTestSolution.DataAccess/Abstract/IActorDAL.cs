@@ -13,9 +13,10 @@ namespace MovieTestSolution.DataAccess.Abstract
     {
         Task<CreaateActorDTO> CreateActorAsync(List<CreaateActorDTO> model);
         Task UpdateActorAsybc(Guid Id, UpdateActorDTO actor);
-        GetActorDTO GetActorDTO(Guid Id);
-        ICollection<GetActorDTO> GetActors();
+        GetActorDTO GetActor(Guid Id);
+        ICollection<GetActorDTO> GetAllActors();
         Task DeleteActorAsync(Guid Id);
         
     }
 }
+
