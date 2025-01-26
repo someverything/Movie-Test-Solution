@@ -11,7 +11,7 @@ namespace MovieTestSolution.DataAccess.Abstract
 {
     public interface IActorDAL : IRepositoryBase<Actor>
     {
-        Task CreateActorAsync(List<CreaateActorDTO> model);
+        Task<CreaateActorDTO> CreateActorAsync(List<CreaateActorDTO> model);
         Task UpdateActorAsybc(Guid Id, UpdateActorDTO actor);
         GetActorDTO GetActorDTO(Guid Id);
         ICollection<GetActorDTO> GetActors();

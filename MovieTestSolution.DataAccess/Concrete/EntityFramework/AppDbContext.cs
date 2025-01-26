@@ -70,7 +70,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                 .HasForeignKey(ms => ms.StudioId);
 
             modelBuilder.Entity<Movie>()
-                .HasOne(m => m.Directo)
+                .HasOne(m => m.Director)
                 .WithMany(d => d.Movies)
                 .HasForeignKey(m => m.DirectorId)
                 .OnDelete(DeleteBehavior.Restrict);

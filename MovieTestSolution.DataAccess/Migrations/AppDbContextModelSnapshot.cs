@@ -144,9 +144,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.Property<decimal>("Rating")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("RatingId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -250,13 +247,13 @@ namespace MovieTestSolution.DataAccess.Migrations
 
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Movie", b =>
                 {
-                    b.HasOne("MovieTestSolution.Entities.Concrete.Director", "Directo")
+                    b.HasOne("MovieTestSolution.Entities.Concrete.Director", "Director")
                         .WithMany("Movies")
                         .HasForeignKey("DirectorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Directo");
+                    b.Navigation("Director");
                 });
 
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieActor", b =>

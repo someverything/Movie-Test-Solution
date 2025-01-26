@@ -88,7 +88,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RatingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Views = table.Column<int>(type: "int", nullable: true),
                     DirectorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),

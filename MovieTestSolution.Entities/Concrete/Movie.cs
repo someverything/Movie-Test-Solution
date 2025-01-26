@@ -11,7 +11,6 @@ namespace MovieTestSolution.Entities.Concrete
     {
         public string Title { get; set; }                     
         public string Description { get; set; }              
-        public Guid RatingId { get; set; }                  
         public decimal Rating { get; set; }                   
         public int? Views { get; set; }                    
         public ICollection<MovieStudio> MovieStudios { get; set; }
@@ -19,7 +18,7 @@ namespace MovieTestSolution.Entities.Concrete
         public ICollection<Genre> Genres { get; set; }
         public ICollection<MovieCountry> MovieCountries { get; set; }
         public Guid DirectorId { get; set; }
-        public Director Directo { get; set; }
+        public Director Director { get; set; }
         public string CreatedBy { get; set; }                
         public string? UpdatedBy { get; set; }
     }
