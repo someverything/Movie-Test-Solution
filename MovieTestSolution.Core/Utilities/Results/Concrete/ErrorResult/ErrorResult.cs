@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult
 {
-    public class ErrorResult :Result
+    public class ErrorResult : Result
     {
         private string message;
         private HttpStatusCode notFound;
@@ -18,6 +18,9 @@ namespace MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult
         }
 
         public ErrorResult(HttpStatusCode statusCode) : base(false, statusCode)
+        {
+        }
+        public ErrorResult(string message, HttpStatusCode statusCode) : base(message, false, statusCode)
         {
         }
     }

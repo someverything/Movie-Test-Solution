@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Entities.DTOs.ActorsDTOs
 {
-    public class CreaateActorDTO
+    public class CreateActorDTO
     {
         public string Name { get; set; }
     }

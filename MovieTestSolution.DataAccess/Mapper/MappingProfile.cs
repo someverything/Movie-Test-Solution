@@ -20,7 +20,7 @@ namespace MovieTestSolution.DataAccess.Mapper
         {   
             //Actor mapping
             CreateMap<Actor, GetActorDTO>();
-            CreateMap<Actor, CreaateActorDTO>();
+            CreateMap<Actor, CreateActorDTO>();
             CreateMap<Actor, UpdateActorDTO>();
 
             //Country mapping

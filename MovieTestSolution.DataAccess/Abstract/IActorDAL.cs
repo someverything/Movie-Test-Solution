@@ -1,4 +1,5 @@
 ﻿using MovieTestSolution.Core.DataAccess.EntityFramework;
+using MovieTestSolution.Core.Utilities.Results.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using System;
@@ -11,12 +12,12 @@ namespace MovieTestSolution.DataAccess.Abstract
 {
     public interface IActorDAL : IRepositoryBase<Actor>
     {
-        Task<CreaateActorDTO> CreateActorAsync(List<CreaateActorDTO> model);
-        Task UpdateActorAsybc(Guid Id, UpdateActorDTO actor);
-        GetActorDTO GetActor(Guid Id);
-        ICollection<GetActorDTO> GetAllActors();
-        Task DeleteActorAsync(Guid Id);
-        
+        Task<IDataResult<CreateActorDTO>> CreateActorAsync(CreateActorDTO model);
+        Task<IResult> UpdateActorAsync(Guid id, UpdateActorDTO actor);
+        IDataResult<GetActorDTO> GetActor(Guid id);
+        IDataResult<ICollection<GetActorDTO>> GetAllActors();
+        Task<IResult> DeleteActorAsync(Guid id);
+
     }
 }
 

@@ -2,14 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Core.DataAccess.EntityFramework;
+using MovieTestSolution.Core.Utilities.Results.Abstract;
+using MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult;
+using MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 {
@@ -26,59 +31,155 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             _logger = logger;
         }
 
-        public async Task<CreaateActorDTO> CreateActorAsync(List<CreaateActorDTO> model)
+        //Create--------------------------
+        public async Task<IDataResult<CreateActorDTO>> CreateActorAsync(CreateActorDTO model)
         {
+            if (model == null)
+            {
+                _logger.LogWarning("CreateActorAsync: Invalid actor data provided.");
+                return new ErrorDataResult<CreateActorDTO>("Invalid actor data", System.Net.HttpStatusCode.BadRequest);
+            }
+
             try
             {
-                if (model == null || !model.Any())
-                {
-                    throw new ArgumentException("Model is empty.");
-                }
-
-                var actor = new Actor
-                {
-                    Id = Guid.NewGuid(),
-                    Name = model.First().Name,
-                };
-
-                await _context.Actors.AddAsync(actor);
+                var actor = _mapper.Map<CreateActorDTO>(model);
+                await _context.AddAsync(actor);
                 await _context.SaveChangesAsync();
-
-                return _mapper.Map<CreaateActorDTO>(model);
+                
+                var createdActor = _mapper.Map<CreateActorDTO>(model);
+                _logger.LogInformation("CreateActorAsync: Actor created successfully.");
+                return new SuccessDataResult<CreateActorDTO>("Actor created successfully.", System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while creating actor.");
-                throw new InvalidOperationException("Error while creating actor.", ex);
+                _logger.LogError(ex, "CreateActorAsync: Error occurred while creating actor.");
+                return new ErrorDataResult<CreateActorDTO>("An error occurred while creating the actor.", System.Net.HttpStatusCode.BadRequest);
             }
         }
 
-        public async Task DeleteActorAsync(Guid Id)
+        //Delete--------------------------
+        public async Task<IResult> DeleteActorAsync(Guid id)
         {
-            var actor = _context.Actors.AsNoTracking().FirstOrDefault(x => x.Id == Id);
-            if (actor != null) _context.Actors.Remove(actor);
-            await (_context.SaveChangesAsync());
+            if(id == Guid.Empty)
+            {
+                _logger.LogWarning("Id is empty");
+                return new ErrorResult("Id is empty", System.Net.HttpStatusCode.BadRequest);
+            }
+
+            try
+            {
+                var actor = _context.Actors.AsNoTracking().FirstOrDefault(x => x.Id == id);
+
+                if (actor == null)
+                {
+                    _logger.LogWarning("Actor not found");
+                    return new ErrorResult("Actor not found", System.Net.HttpStatusCode.NotFound);
+                }
+
+                _context.Actors.Remove(entity: actor);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Actor deleted successfully.");
+                return new SuccessResult("Actor deleted successfully", System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating actor.");
+                return new ErrorResult("Error occurred while creating actor.", System.Net.HttpStatusCode.BadRequest);
+            }
         }
 
-        public GetActorDTO GetActor(Guid Id)
+        //Get-----------------------------
+        public IDataResult<GetActorDTO> GetActor(Guid id)
         {
-            if (Id == Guid.Empty) throw new ArgumentException("Invalid actor ID provided");
+            if (id == Guid.Empty)
+            {
+                _logger.LogWarning("Id is empty");
+                return new ErrorDataResult<GetActorDTO>("Actor not found", System.Net.HttpStatusCode.NotFound);
+            }
 
-            var actor = _context.Actors.AsNoTracking().FirstOrDefault(x => x.Id == Id);
-            
-            if(actor == null)  throw new ArgumentException("There is no data");
+            try
+            {
+                var actor = _context.Actors.AsNoTracking()
+                    .Where(x => x.Id == id)
+                    .Select(x => new GetActorDTO
+                    {
+                        Name = x.Name,
+                        Id = x.Id,
+                    }).FirstOrDefault();
 
-            return _mapper.Map<GetActorDTO>(actor);
+                if (actor == null)
+                {
+                    _logger.LogWarning("Actor not found");
+                    return new ErrorDataResult<GetActorDTO>("Actor not found", System.Net.HttpStatusCode.NotFound);
+                }
+
+                return new SuccessDataResult<GetActorDTO>(actor, "Actor retrieved successfully",System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, "An error occurred while retrieving the actor.");
+                return new ErrorDataResult<GetActorDTO>("An error occurred while retrieving the actor.", System.Net.HttpStatusCode.InternalServerError);
+            }
         }
 
-        public ICollection<GetActorDTO> GetAllActors()
+        public IDataResult<ICollection<GetActorDTO>> GetAllActors()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var actors = _context.Actors.AsNoTracking()
+                    .Select(x => new GetActorDTO
+                    {
+                        Name = x.Name,
+                        Id = x.Id,
+                    }).ToList();
+
+                if (actors == null || !actors.Any())
+                {
+                    _logger.LogWarning("No actors found.");
+                    return new ErrorDataResult<ICollection<GetActorDTO>>("No actors found.", System.Net.HttpStatusCode.NotFound);
+                }
+
+                return new SuccessDataResult<ICollection<GetActorDTO>>(actors, "Actors retrieved successfully.", System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving the actors.");
+                return new ErrorDataResult<ICollection<GetActorDTO>>("An error occurred while retrieving the actors.", System.Net.HttpStatusCode.InternalServerError);
+            }
         }
 
-        public Task UpdateActorAsybc(Guid Id, UpdateActorDTO actor)
+        public async Task<IResult> UpdateActorAsync(Guid id, UpdateActorDTO actor)
         {
-            throw new NotImplementedException();
+            if (actor == null || id == Guid.Empty)
+            {
+                _logger.LogWarning("Id is empty");
+                return new ErrorResult("Invalid input: Id or actor is null/empty.", System.Net.HttpStatusCode.BadRequest);
+            }
+
+            try
+            {
+                var existingActor = await _context.Actors.FirstOrDefaultAsync(x => x.Id == id);
+                if (existingActor == null)
+                {
+                    _logger.LogWarning($"Actor with id {id} not found.");
+                    return new ErrorResult($"Actor with id {id} not found.", System.Net.HttpStatusCode.NotFound);
+                } 
+
+                existingActor.Name = actor.Name;
+                
+                _context.Actors.Update(existingActor);
+                await _context.SaveChangesAsync();
+
+                return new SuccessResult("Actor updated successfuly.", System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError($"Failed to update actor: {id}");
+                return new ErrorResult($"Failed to update actor: {id}", System.Net.HttpStatusCode.BadRequest);
+            }
         }
     }
 }

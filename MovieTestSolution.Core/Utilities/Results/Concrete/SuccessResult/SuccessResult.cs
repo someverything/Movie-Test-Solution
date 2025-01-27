@@ -12,6 +12,9 @@ namespace MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult
         public SuccessResult(string message, bool success, HttpStatusCode statusCode) : base(message, success, statusCode)
         {
         }
+        public SuccessResult(string message, HttpStatusCode statusCode) : base(message, false, statusCode)
+        {
+        }
         public SuccessResult(HttpStatusCode statusCode) : base(true, statusCode)
         {
         }

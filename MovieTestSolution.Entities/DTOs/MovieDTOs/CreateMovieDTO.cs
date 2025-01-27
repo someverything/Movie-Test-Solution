@@ -15,7 +15,7 @@ namespace MovieTestSolution.Entities.DTOs.MovieDTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public ICollection<CreateStudioDTO> Studios { get; set; }
-        public ICollection<CreaateActorDTO> Actors { get; set; }
+        public ICollection<CreateActorDTO> Actors { get; set; }
         public ICollection<CreateGenreDTO> Genres { get; set; }
 
     }

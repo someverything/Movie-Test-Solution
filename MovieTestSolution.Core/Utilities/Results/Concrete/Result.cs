@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieTestSolution.Core.Utilities.Results.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Core.Utilities.Results.Concrete
 {
-    public class Result
+    public class Result : IResult
     {
         public bool Success { get; }
 
