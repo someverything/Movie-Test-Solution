@@ -8,24 +8,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using MovieTestSolution.Core.CrossCuttingConcerns.Caching.Microsoft;
 
 namespace MovieTestSolution.Core.DependencyResolver
 {
     public class CoreModule : ICoreModules
     {
+        private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
+
+        public CoreModule(Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void Load(IServiceCollection serviceDescriptors)
         {
             serviceDescriptors.AddMemoryCache();
 
-            #region Redis
-            serviceDescriptors.AddStackExchangeRedisCache(option =>
-            {
-                option.Configuration = "localhost:1234";
-            });
-            serviceDescriptors.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:1234"));
-            #endregion
+            bool useRedis = _configuration.GetValue<bool>("UseRedis");
 
-            serviceDescriptors.AddTransient<ICacheManager, RedisCacheManager>();
+            if (useRedis)
+            {
+                #region Redis Configuration
+                var redisConfig = new ConfigurationOptions
+                {
+                    EndPoints = { "localhost:1234" }, // Use your Redis port
+                    AbortOnConnectFail = false
+                };
+
+                serviceDescriptors.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = "localhost:1234,abortConnect=false";
+                });
+
+                serviceDescriptors.AddSingleton<IConnectionMultiplexer>(sp =>
+                    ConnectionMultiplexer.Connect(redisConfig));
+
+                serviceDescriptors.AddSingleton<ICacheManager, RedisCacheManager>();
+                #endregion
+            }
+            else
+            {
+                // Use MemoryCacheManager
+                serviceDescriptors.AddSingleton<ICacheManager, MemoryCacheManager>();
+            }
         }
     }
 }

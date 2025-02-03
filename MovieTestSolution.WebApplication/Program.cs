@@ -7,9 +7,11 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var configuration = builder.Configuration;
+
 builder.Services.AddBusinessServices();
-ICoreModules coreModule = new CoreModule();
-coreModule.Load(builder.Services);
+builder.Services.AddSingleton<ICoreModules>(new CoreModule(configuration));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
