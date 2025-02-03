@@ -42,8 +42,9 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 
             try
             {
-                var actor = _mapper.Map<CreateActorDTO>(model);
-                await _context.AddAsync(actor);
+                var actor = _mapper.Map<Actor>(model);
+
+                await _context.Actors.AddAsync(actor);
                 await _context.SaveChangesAsync();
                 
                 var createdActor = _mapper.Map<CreateActorDTO>(model);
@@ -177,7 +178,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             catch (Exception ex)
             {
 
-                _logger.LogError($"Failed to update actor: {id}");
+                _logger.LogError(ex ,$"Failed to update actor: {id}");
                 return new ErrorResult($"Failed to update actor: {id}", System.Net.HttpStatusCode.BadRequest);
             }
         }

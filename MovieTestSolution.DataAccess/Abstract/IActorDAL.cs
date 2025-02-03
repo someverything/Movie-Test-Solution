@@ -17,7 +17,6 @@ namespace MovieTestSolution.DataAccess.Abstract
         IDataResult<GetActorDTO> GetActor(Guid id);
         IDataResult<ICollection<GetActorDTO>> GetAllActors();
         Task<IResult> DeleteActorAsync(Guid id);
-
     }
 }
 

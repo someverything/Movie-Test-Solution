@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MovieTestSolution.Business.Aиstract;
+using MovieTestSolution.Business.Concrete;
+using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.DataAccess.Concrete.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,9 @@ namespace MovieTestSolution.Business.DependencyResolver
         public static void AddBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<AppDbContext>();
+
+            services.AddScoped<IActorDAL, EFActorDAL>();
+            services.AddScoped<IActorServices, ActorManager>();
         }
     }
 }

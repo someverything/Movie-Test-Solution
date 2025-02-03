@@ -10,6 +10,6 @@ namespace MovieTestSolution.Entities.DTOs.StudioDTOs
     public class GetStudioDTO
     {
         public string Name { get; set; }
-        public GetMovieNameDTO MovieName { get; set; }
+        public ICollection<GetMovieNameDTO> MovieName { get; set; }
     }
 }

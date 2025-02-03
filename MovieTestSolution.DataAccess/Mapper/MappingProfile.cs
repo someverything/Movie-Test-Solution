@@ -19,9 +19,9 @@ namespace MovieTestSolution.DataAccess.Mapper
         public MappingProfile()
         {   
             //Actor mapping
-            CreateMap<Actor, GetActorDTO>();
-            CreateMap<Actor, CreateActorDTO>();
-            CreateMap<Actor, UpdateActorDTO>();
+            CreateMap<Actor, GetActorDTO>().ReverseMap();
+            CreateMap<Actor, CreateActorDTO>().ReverseMap();
+            CreateMap<Actor, UpdateActorDTO>().ReverseMap();
 
             //Country mapping
             CreateMap<Country, CreateCountryDTO>();

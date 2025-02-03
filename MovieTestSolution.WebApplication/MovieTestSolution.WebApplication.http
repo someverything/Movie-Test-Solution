@@ -1,0 +1,6 @@
+@MovieTestSolution.WebApplication_HostAddress = http://localhost:5052
+
+GET {{MovieTestSolution.WebApplication_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
