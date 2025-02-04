@@ -42,14 +42,29 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 
             try
             {
-                var actor = _mapper.Map<Actor>(model);
+                var actor = new Actor
+                {
+                    Name = model.Name,
+                };
 
                 await _context.Actors.AddAsync(actor);
+
+                await using var transaction = await _context.Database.BeginTransactionAsync();
                 await _context.SaveChangesAsync();
-                
-                var createdActor = _mapper.Map<CreateActorDTO>(model);
+                await transaction.CommitAsync();
+
+                var createdActor = new CreateActorDTO
+                {
+                    Name = model.Name,
+                };
+
                 _logger.LogInformation("CreateActorAsync: Actor created successfully.");
                 return new SuccessDataResult<CreateActorDTO>("Actor created successfully.", System.Net.HttpStatusCode.OK);
+            }
+            catch(DbUpdateException ex)
+            {
+                _logger.LogError(ex, "CreateActorAsync: Database error occurred while creating actor.");
+                return new ErrorDataResult<CreateActorDTO>("Database error occurred.", System.Net.HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {

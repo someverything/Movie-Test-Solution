@@ -39,21 +39,10 @@ namespace MovieTestSolution.Business.Concrete
                             false,
                             System.Net.HttpStatusCode.BadRequest);
             }
+            
+            var actor = await _actorDAL.CreateActorAsync(model);
 
-            try
-            {
-                _logger.LogInformation("Starting to create Article");
-
-                await _actorDAL.CreateActorAsync(model);
-                
-                _logger.LogInformation("Actor created");
-                return new SuccessDataResult<CreateActorDTO>(model, "Actor created properly", HttpStatusCode.OK);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error ocured while creating actor");
-                return new ErrorDataResult<CreateActorDTO>(model, HttpStatusCode.BadRequest);
-            }
+            return new SuccessDataResult<CreateActorDTO>(data: actor.Data, "Actor created successfully", HttpStatusCode.OK);
         }
 
         public Task<IResult> DeleteActorAsync(Guid id)

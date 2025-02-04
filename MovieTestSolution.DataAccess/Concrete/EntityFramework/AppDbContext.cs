@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MovieTestSolution.Core.Configuration;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.Concrete.Common;
 using System;
@@ -9,11 +11,12 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = localhost; Database = MovieSolutionDb; Trusted_Connection = True; TrustServerCertificate = True");
+            //optionsBuilder.UseSqlServer("Server = localhost; Database = MovieSolutionDb; Trusted_Connection = True; TrustServerCertificate = True");
+            optionsBuilder.UseSqlServer(DatabaseConfiguration.ConnectionString);
         }
 
         public DbSet<Actor> Actors { get; set; }
