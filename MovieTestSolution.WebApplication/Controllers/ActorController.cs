@@ -32,5 +32,27 @@ namespace MovieTestSolution.WebApp.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteActorById(Guid Id)
+        {
+            var result = await _actorServices.DeleteActorAsync(Id);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllActors()
+        {
+            var result = _actorServices.GetAllActors();
+            return Ok(result);
+        }
+
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateActor(Guid Id, UpdateActorDTO model)
+        {
+            await _actorServices.UpdateActorAsync(Id, model);
+            return Ok(model);
+        }
     }
 }
+

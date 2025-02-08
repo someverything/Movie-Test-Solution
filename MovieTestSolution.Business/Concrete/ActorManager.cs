@@ -48,13 +48,16 @@ namespace MovieTestSolution.Business.Concrete
 
         public IDataResult<ICollection<GetActorDTO>> GetAllActors()
         {
-            throw new NotImplementedException();
+            var actors = _actorDAL.GetAllActors();
+            return new SuccessDataResult<ICollection<GetActorDTO>>(data: actors.Data,"All data received successfully", HttpStatusCode.OK);
         }
 
 
-        public Task<IResult> UpdateActorAsync(Guid id, UpdateActorDTO model)
+        public async Task<IResult> UpdateActorAsync(Guid Id, UpdateActorDTO model)
         {
-            throw new NotImplementedException();
+            await _actorDAL.UpdateActorAsync(Id, model);
+            return new SuccessResult("Actor updated successfully", HttpStatusCode.OK);
+
         }
     }
 }
