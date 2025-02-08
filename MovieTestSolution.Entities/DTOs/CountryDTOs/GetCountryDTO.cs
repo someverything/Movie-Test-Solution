@@ -10,6 +10,5 @@ namespace MovieTestSolution.Entities.DTOs.CountryDTOs
     public class GetCountryDTO
     {
         public string Name { get; set; }
-        public GetMovieNameDTO MovieName { get; set; }
     }
 }
