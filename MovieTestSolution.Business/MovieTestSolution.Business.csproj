@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieTestSolution.Core\MovieTestSolution.Core.csproj" />
     <ProjectReference Include="..\MovieTestSolution.DataAccess\MovieTestSolution.DataAccess.csproj" />
   </ItemGroup>
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTestSolution.Core.Interceptors
+namespace MovieTestSolution.Core.Utilities.Interceptors
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public abstract class MethodInterceptionBaseAttribute : Attribute, Castle.DynamicProxy.IInterceptor
@@ -14,7 +14,7 @@ namespace MovieTestSolution.Core.Interceptors
         public int Priority { get; set; }
         public virtual void Intercept(IInvocation invocation)
         {
-            
+
         }
     }
 }

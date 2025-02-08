@@ -27,66 +27,23 @@ namespace MovieTestSolution.Business.Concrete
             _logger = logger;
             _mapper = mapper;
         }
-
         public async Task<IDataResult<CreateActorDTO>> CreateActorAsync(CreateActorDTO model)
         {
-            if (model == null)
-            {
-                _logger.LogWarning("Invalid Actor data provided");
-                return new ErrorDataResult<CreateActorDTO>(
-                            data: null,
-                            "Invalid actor data",
-                            false,
-                            System.Net.HttpStatusCode.BadRequest);
-            }
-            
             var actor = await _actorDAL.CreateActorAsync(model);
-
             return new SuccessDataResult<CreateActorDTO>(data: actor.Data, "Actor created successfully", HttpStatusCode.OK);
         }
 
-        public Task<IResult> DeleteActorAsync(Guid id)
+        public async Task<IResult> DeleteActorAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _actorDAL.DeleteActorAsync(id);
+            _logger.LogInformation($"Actor with Id {id} deleted successfully.", id);
+            return new SuccessResult("Actor deleted successfully!", true, System.Net.HttpStatusCode.OK);
         }
 
         public IDataResult<GetActorDTO> GetActor(Guid Id)
         {
-            if (Id == Guid.Empty)
-            {
-                _logger.LogInformation("Id is empty");
-                return new ErrorDataResult<GetActorDTO>(data: null, "Id is empty", false, HttpStatusCode.BadRequest);
-            }
-
-            try
-            {
-                var actor = _actorDAL.GetActor(Id);
-
-                if (actor == null)
-                {
-                    _logger.LogWarning("Actor not found in database.");
-                    return new ErrorDataResult<GetActorDTO>("Actor not found", HttpStatusCode.NotFound);
-                }
-
-                var result = new GetActorDTO
-                {
-                    Name = actor.Data.Name,
-                    Id = Id,
-                };
-
-                if (result == null)
-                {
-                    _logger.LogWarning("Actor not found");
-                    return new ErrorDataResult<GetActorDTO>("Actor not found", System.Net.HttpStatusCode.NotFound);
-                }
-
-                return new SuccessDataResult<GetActorDTO>(result, "Actor retrieved successfully", HttpStatusCode.OK);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving the actor.");
-                return new ErrorDataResult<GetActorDTO>("An error occurred while retrieving the actor.", HttpStatusCode.InternalServerError);
-            }
+            var actor = _actorDAL.GetActor(Id);
+            return new SuccessDataResult<GetActorDTO>(data: actor.Data, $"There is your Actor by Id: {Id}", HttpStatusCode.OK);
         }
 
         public IDataResult<ICollection<GetActorDTO>> GetAllActors()
