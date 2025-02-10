@@ -17,10 +17,10 @@ namespace MovieTestSolution.Business.Concrete
     public class CountryManager : ICountryServices
     {
         private readonly ICountryDAL _countryDAL;
-        private readonly ILogger _logger;
+        private readonly ILogger<Country> _logger;
         private readonly IMapper _mapper;
 
-        public CountryManager(ICountryDAL countryDAL, ILogger logger, IMapper mapper)
+        public CountryManager(ICountryDAL countryDAL, ILogger<Country> logger, IMapper mapper)
         {
             _countryDAL = countryDAL;
             _logger = logger;

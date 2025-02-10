@@ -142,6 +142,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                     .Where(x => x.Id == Id)
                     .Select(x => new GetCountryDTO
                     {
+                        Id = x.Id,
                         Name = x.Name,
                     }).FirstOrDefault();
 
@@ -177,6 +178,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                     Name = model.Name,
                 };
 
+                _context.Countries.Remove(country);
                 await _context.Countries.AddAsync(country);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();

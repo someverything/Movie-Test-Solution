@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MovieTestSolution.Business.Abstract;
 using MovieTestSolution.Business.Aиstract;
 using MovieTestSolution.Business.Concrete;
 using MovieTestSolution.DataAccess.Abstract;
@@ -19,6 +20,9 @@ namespace MovieTestSolution.Business.DependencyResolver
 
             services.AddScoped<IActorDAL, EFActorDAL>();
             services.AddScoped<IActorServices, ActorManager>();
+
+            services.AddScoped<ICountryDAL, EFCountryDAL>();
+            services.AddScoped<ICountryServices, CountryManager>();
         }
     }
 }
