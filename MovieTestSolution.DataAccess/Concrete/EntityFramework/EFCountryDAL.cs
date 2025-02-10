@@ -33,7 +33,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
         }
 
 
-        public IResult CreateCountry(CreateActorDTO model)
+        public IResult CreateCountry(CreateCountryDTO model)
         {
             if (model == null)
             {

@@ -13,7 +13,7 @@ namespace MovieTestSolution.DataAccess.Abstract
 {
     public interface ICountryDAL : IRepositoryBase<Country>
     {
-        IResult CreateCountry(CreateActorDTO model);
+        IResult CreateCountry(CreateCountryDTO model);
         IDataResult<GetCountryDTO> GetCountry(Guid Id);
         IDataResult<ICollection<GetCountryDTO>> GetAllCountries();
         Task<IResult> DeleteCountryAsync(Guid Id);
