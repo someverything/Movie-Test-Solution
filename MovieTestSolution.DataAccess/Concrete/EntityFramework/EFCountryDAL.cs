@@ -166,37 +166,42 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
         {
             if (Id == Guid.Empty || model == null)
             {
-                _logger.LogWarning("Id is empty");
-                return new ErrorResult("Invalid input: Id or actor is null/empty.", System.Net.HttpStatusCode.BadRequest);
+                _logger.LogWarning("Invalid input: Id or country data is null/empty.");
+                return new ErrorResult("Invalid input: Id or country data is null/empty.", System.Net.HttpStatusCode.BadRequest);
             }
 
             await using var transaction = _context.Database.BeginTransaction();
+
             try
             {
-                var country = new Country
-                {
-                    Name = model.Name,
-                };
+                var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == Id);
 
-                _context.Countries.Remove(country);
-                await _context.Countries.AddAsync(country);
+                if (country == null)
+                {
+                    _logger.LogWarning("Country not found");
+                    return new ErrorResult("Country not found", System.Net.HttpStatusCode.NotFound);
+                }
+
+                country.Name = model.Name;
+
+                _context.Countries.Update(country);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                _logger.LogInformation("Country updated successfully.");
-                return new SuccessDataResult<CreateCountryDTO>("Country updated successfully.", System.Net.HttpStatusCode.OK);
-
-
+                _logger.LogInformation($"{country.Name} updated successfully.");
+                return new SuccessResult($"{country.Name} updated successfully.", System.Net.HttpStatusCode.OK);
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, "Database error occurred.");
-                return new ErrorDataResult<CreateCountryDTO>("Database error occurred.", System.Net.HttpStatusCode.InternalServerError);
+                transaction.Rollback();
+                _logger.LogError(ex, "Database error occurred while updating country.");
+                return new ErrorResult("Database error occurred while updating country.", System.Net.HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred.");
-                return new ErrorDataResult<CreateCountryDTO>("An error occurred", System.Net.HttpStatusCode.BadRequest);
+                transaction.Rollback();
+                _logger.LogError(ex, "An error occurred while updating country.");
+                return new ErrorResult("An error occurred while updating country.", System.Net.HttpStatusCode.InternalServerError);
             }
         }
     }
