@@ -23,6 +23,9 @@ namespace MovieTestSolution.Business.DependencyResolver
 
             services.AddScoped<ICountryDAL, EFCountryDAL>();
             services.AddScoped<ICountryServices, CountryManager>();
+
+            services.AddScoped<IStudioDAL, EFStudioDAL>();
+            services.AddScoped<IStudionServices, StudioManager>();
         }
     }
 }
