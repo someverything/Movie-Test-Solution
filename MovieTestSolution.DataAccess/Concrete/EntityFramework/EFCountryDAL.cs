@@ -33,7 +33,6 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
         }
 
 
-        //Create --------------------------------------
         public IResult CreateCountry(CreateActorDTO model)
         {
             if (model == null)
@@ -61,20 +60,72 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             }
             catch (Exception ex)
             {
-                _logger.LogError("There is Error ocurred while creating Country");
+                transaction.Rollback();
+                _logger.LogError(ex, "There is Error ocurred while creating Country");
                 return new ErrorResult("There is Error ocurred while creating Country", false, System.Net.HttpStatusCode.BadRequest);
             }
         }
 
 
-        public Task<IResult> DeleteCountryAsync(Guid Id)
+        public async Task<IResult> DeleteCountryAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            if (Id == Guid.Empty)
+            {
+                _logger.LogWarning("Invalid Id provided");
+                return new ErrorResult("Invalid Id provided", System.Net.HttpStatusCode.BadRequest);
+            }
+
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
+            {
+                var country = await _context.Countries.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id);
+
+                if(country == null)
+                {
+                    _logger.LogWarning("Country not found");
+                    return new ErrorResult("Country not found", System.Net.HttpStatusCode.NotFound);
+                }
+
+                _context.Countries.Remove(country);
+                _context.SaveChanges();
+                transaction.Commit();
+
+                _logger.LogInformation("Country deleted successfully.");
+                return new SuccessResult("Country deleted successfully", System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                _logger.LogError(ex, "Error ocured while deleting country");
+                return new ErrorResult("Error ocured while deleting country", System.Net.HttpStatusCode.BadRequest);
+            }
         }
 
-        public ICollection<IDataResult<GetCountryDTO>> GetAllCountries()
+        public IDataResult<ICollection<GetCountryDTO>> GetAllCountries()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var countries = _context.Countries.AsNoTracking()
+                    .Select(x => new GetCountryDTO
+                    {
+                        Name = x.Name,
+                        Id = x.Id,
+                    }).ToList();
+
+                if (countries == null || !countries.Any())
+                {
+                    _logger.LogWarning("No countries found.");
+                    return new ErrorDataResult<ICollection<GetCountryDTO>>("No countries found.", System.Net.HttpStatusCode.NotFound);
+                }
+
+                return new SuccessDataResult<ICollection<GetCountryDTO>>(countries, System.Net.HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "There is Error ocurred while getting data");
+                return new ErrorDataResult<ICollection<GetCountryDTO>>(data: null, "There is Error ocurred while getting data", false, System.Net.HttpStatusCode.InternalServerError);
+            }
         }
 
         public IDataResult<GetCountryDTO> GetCountry(Guid Id)
@@ -110,9 +161,41 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             }
         }
 
-        public Task<IResult> UpdateCountryAsync(Guid Id, UpdateCountryDTO model)
+        public async Task<IResult> UpdateCountryAsync(Guid Id, UpdateCountryDTO model)
         {
-            throw new NotImplementedException();
+            if (Id == Guid.Empty || model == null)
+            {
+                _logger.LogWarning("Id is empty");
+                return new ErrorResult("Invalid input: Id or actor is null/empty.", System.Net.HttpStatusCode.BadRequest);
+            }
+
+            await using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                var country = new Country
+                {
+                    Name = model.Name,
+                };
+
+                await _context.Countries.AddAsync(country);
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                _logger.LogInformation("Country updated successfully.");
+                return new SuccessDataResult<CreateCountryDTO>("Country updated successfully.", System.Net.HttpStatusCode.OK);
+
+
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database error occurred.");
+                return new ErrorDataResult<CreateCountryDTO>("Database error occurred.", System.Net.HttpStatusCode.InternalServerError);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred.");
+                return new ErrorDataResult<CreateCountryDTO>("An error occurred", System.Net.HttpStatusCode.BadRequest);
+            }
         }
     }
 }

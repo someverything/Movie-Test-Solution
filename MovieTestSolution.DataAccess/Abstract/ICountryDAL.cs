@@ -15,7 +15,7 @@ namespace MovieTestSolution.DataAccess.Abstract
     {
         IResult CreateCountry(CreateActorDTO model);
         IDataResult<GetCountryDTO> GetCountry(Guid Id);
-        ICollection<IDataResult<GetCountryDTO>> GetAllCountries();
+        IDataResult<ICollection<GetCountryDTO>> GetAllCountries();
         Task<IResult> DeleteCountryAsync(Guid Id);
         Task<IResult> UpdateCountryAsync(Guid Id, UpdateCountryDTO model);
     }

@@ -40,6 +40,8 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                 return new ErrorDataResult<CreateActorDTO>("Invalid actor data", System.Net.HttpStatusCode.BadRequest);
             }
 
+            await using var transaction = await _context.Database.BeginTransactionAsync();
+            
             try
             {
                 var actor = new Actor
@@ -49,7 +51,6 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 
                 await _context.Actors.AddAsync(actor);
 
-                await using var transaction = await _context.Database.BeginTransactionAsync();
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
@@ -100,8 +101,8 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating actor.");
-                return new ErrorResult("Error occurred while creating actor.", System.Net.HttpStatusCode.BadRequest);
+                _logger.LogError(ex, "Error occurred while deleting actor.");
+                return new ErrorResult("Error occurred while deleting actor.", System.Net.HttpStatusCode.BadRequest);
             }
         }
 
