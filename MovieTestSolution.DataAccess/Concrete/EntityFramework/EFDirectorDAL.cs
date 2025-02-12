@@ -19,9 +19,9 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly Microsoft.Extensions.Logging.ILogger<Country> _logger;
+        private readonly Microsoft.Extensions.Logging.ILogger<Director> _logger;
 
-        public EFDirectorDAL(AppDbContext context, IMapper mapper, Microsoft.Extensions.Logging.ILogger<Country> logger)
+        public EFDirectorDAL(AppDbContext context, IMapper mapper, Microsoft.Extensions.Logging.ILogger<Director> logger)
         {
             _context = context;
             _mapper = mapper;
@@ -115,7 +115,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             {
                 var director = await _context.Directors.FindAsync(Id);
                 if (director == null)
-                    return new ErrorResult("Director not found.", System.Net.HttpStatusCode.BadRequest);
+                    return new ErrorResult("Director not found.", System.Net.HttpStatusCode.NotFound);
 
                 _mapper.Map(model, director);
                 _context.Directors.Update(director);
