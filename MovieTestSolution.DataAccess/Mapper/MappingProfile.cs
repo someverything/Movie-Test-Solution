@@ -45,9 +45,9 @@ namespace MovieTestSolution.DataAccess.Mapper
             CreateMap<Movie, GetMovieNameDTO>();
 
             //Studion mapping
-            CreateMap<Studio, CreateStudioDTO>();
-            CreateMap<Studio, GetStudioDTO>();
-            CreateMap<Studio, UpdateStudioDTO>();
+            CreateMap<Studio, CreateStudioDTO>().ReverseMap();
+            CreateMap<Studio, GetStudioDTO>().ReverseMap();
+            CreateMap<Studio, UpdateStudioDTO>().ReverseMap();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace MovieTestSolution.Business.Concrete
             _logger.LogInformation("Delete method started");
             await _studioDAL.DeleteAsync(Id);
             _logger.LogInformation("Stuido deleted successfully");
-            return new SuccessResult("Stuido deleted successfully", System.Net.HttpStatusCode.OK);
+            return new SuccessResult("Stuido deleted successfully", true, System.Net.HttpStatusCode.OK);
         }
 
         public IDataResult<GetStudioDTO> Get(Guid Id)

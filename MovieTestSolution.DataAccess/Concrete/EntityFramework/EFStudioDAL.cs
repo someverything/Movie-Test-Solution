@@ -83,7 +83,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                 await transaction.CommitAsync();
 
                 _logger.LogInformation("Studio deleted successfully.");
-                return new SuccessResult("Studio deleted successfully.", System.Net.HttpStatusCode.OK);
+                return new SuccessResult("Studio deleted successfully.", true, System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
