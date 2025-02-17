@@ -9,7 +9,8 @@ namespace MovieTestSolution.Entities.Concrete
 {
     public class Director : BaseEntity
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public ICollection<Movie> Movies { get; set; }
     }
 }

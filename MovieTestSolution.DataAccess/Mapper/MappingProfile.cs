@@ -24,25 +24,25 @@ namespace MovieTestSolution.DataAccess.Mapper
             CreateMap<Actor, UpdateActorDTO>().ReverseMap();
 
             //Country mapping
-            CreateMap<Country, CreateCountryDTO>();
-            CreateMap<Country, GetCountryDTO>();
-            CreateMap<Country, UpdateCountryDTO>();
+            CreateMap<Country, CreateCountryDTO>().ReverseMap();
+            CreateMap<Country, GetCountryDTO>().ReverseMap();
+            CreateMap<Country, UpdateCountryDTO>().ReverseMap();
 
             //Director mapping
-            CreateMap<Director, CreateDirectorDTO>();
-            CreateMap<Director, GetDirectorDTO>();
-            CreateMap<Director, UpdateDirectorDTO>();
+            CreateMap<Director, CreateDirectorDTO>().ReverseMap();
+            CreateMap<Director, GetDirectorDTO>().ReverseMap();
+            CreateMap<Director, UpdateDirectorDTO>().ReverseMap();
 
             //Genre mapping
-            CreateMap<Genre, CreateGenreDTO>();
-            CreateMap<Genre, GetGenreDTO>();
-            CreateMap<Genre, UpdateGenreDTO>();
+            CreateMap<Genre, CreateGenreDTO>().ReverseMap();
+            CreateMap<Genre, GetGenreDTO>().ReverseMap();
+            CreateMap<Genre, UpdateGenreDTO>().ReverseMap();
 
             //Movie mapping
-            CreateMap<Movie, CreateMovieDTO>();
-            CreateMap<Movie, GetMovieDTO>();
-            CreateMap<Movie, UpdateMovieDTO>();
-            CreateMap<Movie, GetMovieNameDTO>();
+            CreateMap<Movie, CreateMovieDTO>().ReverseMap();
+            CreateMap<Movie, GetMovieDTO>().ReverseMap();
+            CreateMap<Movie, UpdateMovieDTO>().ReverseMap();
+            CreateMap<Movie, GetMovieNameDTO>().ReverseMap();
 
             //Studion mapping
             CreateMap<Studio, CreateStudioDTO>().ReverseMap();

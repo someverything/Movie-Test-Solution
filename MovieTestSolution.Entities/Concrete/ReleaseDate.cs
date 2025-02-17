@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace MovieTestSolution.Entities.Concrete
 {
-    public class Actor : BaseEntity
+    public class ReleaseDate : BaseEntity
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public ICollection<MovieActor> MovieActors { get; set; }
+        public DateTime Date { get; set; }
+        public ICollection<Movie> Movies { get; set; }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Business.Aиstract;
-using MovieTestSolution.Core.Utilities.Results.Abstract;
-using MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult;
-using MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using System;
@@ -12,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using UtilitiesDLL.Results.Abstract;
+using UtilitiesDLL.Results.Concrete.SuccessResults;
 
 namespace MovieTestSolution.Business.Concrete
 {
@@ -37,7 +36,7 @@ namespace MovieTestSolution.Business.Concrete
         {
             await _actorDAL.DeleteActorAsync(id);
             _logger.LogInformation($"Actor with Id {id} deleted successfully.", id);
-            return new SuccessResult("Actor deleted successfully!", true, System.Net.HttpStatusCode.OK);
+            return new SuccessResult("Actor deleted successfully!", System.Net.HttpStatusCode.OK);
         }
 
         public IDataResult<GetActorDTO> GetActor(Guid Id)

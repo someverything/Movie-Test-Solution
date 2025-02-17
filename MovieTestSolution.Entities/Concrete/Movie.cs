@@ -12,7 +12,9 @@ namespace MovieTestSolution.Entities.Concrete
         public string Title { get; set; }                     
         public string Description { get; set; }              
         public decimal Rating { get; set; }                   
-        public int? Views { get; set; }                    
+        public int? Views { get; set; }
+        public ReleaseDate ReleaseDate { get; set; }
+        public Guid DateId { get; set; }
         public ICollection<MovieStudio> MovieStudios { get; set; }
         public ICollection<MovieActor> MovieActors { get; set; }
         public ICollection<Genre> Genres { get; set; }

@@ -10,6 +10,7 @@ namespace MovieTestSolution.Entities.DTOs.ActorsDTOs
 {
     public class CreateActorDTO
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieTestSolution.Entities.DTOs.DirectoDTOs
+namespace MovieTestSolution.Business.Validations.FluentValidation
 {
-    public class CreateDirectorDTO
+    internal class DirectorValidation
     {
-        public string Name { get; set; }
     }
 }

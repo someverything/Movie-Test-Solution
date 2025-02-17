@@ -1,10 +1,10 @@
-﻿using MovieTestSolution.Core.Utilities.Results.Abstract;
-using MovieTestSolution.Entities.DTOs.ActorsDTOs;
+﻿using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilitiesDLL.Results.Abstract;
 
 namespace MovieTestSolution.Business.Aиstract
 {
