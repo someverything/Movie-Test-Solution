@@ -29,6 +29,9 @@ namespace MovieTestSolution.Business.DependencyResolver
 
             services.AddScoped<IDirectorDAL, EFDirectorDAL>();
             services.AddScoped<IDirectorServices, DirectorManager>();
+
+            services.AddScoped<IGenreDAL, EFGenreDAL>();
+            services.AddScoped<IGenreServices, GenreManager>();
         }
     }
 }

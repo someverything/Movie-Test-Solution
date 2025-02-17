@@ -20,10 +20,10 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
     public class EFGenreDAL : EFRepositoryBase<Genre, AppDbContext>, IGenreDAL
     {
         private readonly AppDbContext _context;
-        private readonly ILogger _logger;
+        private readonly ILogger<Genre> _logger;
         private readonly IMapper _mapper;
 
-        public EFGenreDAL(AppDbContext context, ILogger logger, IMapper mapper)
+        public EFGenreDAL(AppDbContext context, ILogger<Genre> logger, IMapper mapper)
         {
             _context = context;
             _logger = logger;
