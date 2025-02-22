@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Business.Abstract;
-using MovieTestSolution.Core.Utilities.Results.Abstract;
-using MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.StudioDTOs;
@@ -11,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilitiesDLL.Results.Abstract;
+using UtilitiesDLL.Results.Concrete.SuccessResults;
 
 namespace MovieTestSolution.Business.Concrete
 {
@@ -38,7 +38,7 @@ namespace MovieTestSolution.Business.Concrete
             _logger.LogInformation("Delete method started");
             await _studioDAL.DeleteAsync(Id);
             _logger.LogInformation("Stuido deleted successfully");
-            return new SuccessResult("Stuido deleted successfully", true, System.Net.HttpStatusCode.OK);
+            return new SuccessResult("Stuido deleted successfully", System.Net.HttpStatusCode.OK);
         }
 
         public IDataResult<GetStudioDTO> Get(Guid Id)

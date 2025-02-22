@@ -3,9 +3,6 @@ using Castle.Core.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Core.DataAccess.EntityFramework;
-using MovieTestSolution.Core.Utilities.Results.Abstract;
-using MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult;
-using MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
@@ -16,6 +13,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using UtilitiesDLL.Results.Abstract;
+using UtilitiesDLL.Results.Concrete.ErrorResults;
+using UtilitiesDLL.Results.Concrete.SuccessResults;
 
 namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 {
@@ -38,7 +38,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             if (model == null)
             {
                 _logger.LogWarning("Invalid Country data provided");
-                return new ErrorResult("Invalid Country data provided", false, System.Net.HttpStatusCode.BadRequest);
+                return new ErrorResult("Invalid Country data provided", System.Net.HttpStatusCode.BadRequest);
             }
 
             using var transaction = _context.Database.BeginTransaction();
@@ -56,13 +56,13 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                 transaction.Commit();
 
                 _logger.LogInformation($"{country.Name} created successfully");
-                return new SuccessResult($"{country.Name} created successfully", true, System.Net.HttpStatusCode.OK);
+                return new SuccessResult($"{country.Name} created successfully", System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
                 _logger.LogError(ex, "There is Error ocurred while creating Country");
-                return new ErrorResult("There is Error ocurred while creating Country", false, System.Net.HttpStatusCode.BadRequest);
+                return new ErrorResult("There is Error ocurred while creating Country", System.Net.HttpStatusCode.BadRequest);
             }
         }
 
@@ -124,7 +124,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             catch (Exception ex)
             {
                 _logger.LogError(ex, "There is Error ocurred while getting data");
-                return new ErrorDataResult<ICollection<GetCountryDTO>>(data: null, "There is Error ocurred while getting data", false, System.Net.HttpStatusCode.InternalServerError);
+                return new ErrorDataResult<ICollection<GetCountryDTO>>(null, "There is Error ocurred while getting data", System.Net.HttpStatusCode.InternalServerError);
             }
         }
 
@@ -133,7 +133,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
             if (Id == Guid.Empty)
             {
                 _logger.LogWarning("Invalid Country data provided");
-                return new ErrorDataResult<GetCountryDTO>(data: null,"Invalid Country data provided", false, System.Net.HttpStatusCode.BadRequest);
+                return new ErrorDataResult<GetCountryDTO>(data: null,"Invalid Country data provided", System.Net.HttpStatusCode.BadRequest);
             }
 
             try

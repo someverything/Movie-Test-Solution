@@ -9,7 +9,7 @@ namespace MovieTestSolution.Entities.DTOs.DirectoDTOs
 {
     public class GetDirectorDTO
     {
-        public string Name { get; set; }
-        public ICollection<GetMovieNameDTO> MovieName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

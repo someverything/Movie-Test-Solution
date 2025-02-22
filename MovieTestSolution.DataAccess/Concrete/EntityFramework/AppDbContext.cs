@@ -31,58 +31,16 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<MovieActor>()
                 .HasKey(ma => new { ma.MovieId, ma.ActorId });
-
-            modelBuilder.Entity<MovieActor>()
-                .HasOne(ma => ma.Movie)
-                .WithMany(m => m.MovieActors)
-                .HasForeignKey(ma => ma.MovieId);
-
-            modelBuilder.Entity<MovieActor>()
-                .HasOne(ma => ma.Actor)
-                .WithMany(a => a.MovieActors)
-                .HasForeignKey(ma => ma.ActorId);
-
             modelBuilder.Entity<MovieCountry>()
                 .HasKey(mc => new { mc.MovieId, mc.CountryId });
-
-            modelBuilder.Entity<MovieCountry>()
-                .HasOne(mc => mc.Movie)
-                .WithMany(m => m.MovieCountries)
-                .HasForeignKey(mc => mc.MovieId);
-
-            modelBuilder.Entity<MovieCountry>()
-                .HasOne(mc => mc.Country)
-                .WithMany()
-                .HasForeignKey(mc => mc.CountryId);
-
             modelBuilder.Entity<MovieStudio>()
-    .HasKey(ms => new { ms.MovieId, ms.StudioId });
+                .HasKey(ms => new { ms.MovieId, ms.StudioId});
 
-            modelBuilder.Entity<MovieStudio>()
-                .HasOne(ms => ms.Movie)
-                .WithMany(m => m.MovieStudios)
-                .HasForeignKey(ms => ms.MovieId);
-
-            modelBuilder.Entity<MovieStudio>()
-                .HasOne(ms => ms.Studio)
-                .WithMany(s => s.MovieStudios)
-                .HasForeignKey(ms => ms.StudioId);
-
-            modelBuilder.Entity<Movie>()
-                .HasOne(m => m.Director)
-                .WithMany(d => d.Movies)
-                .HasForeignKey(m => m.DirectorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Movie>()
-                .HasMany(m => m.Genres)
-                .WithMany(g => g.Movies)
-                .UsingEntity(j => j.ToTable("MovieGenres"));
+            base.OnModelCreating(modelBuilder);
         }
+
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

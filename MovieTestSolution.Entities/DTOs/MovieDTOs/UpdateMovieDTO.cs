@@ -8,14 +8,17 @@ namespace MovieTestSolution.Entities.DTOs.MovieDTOs
 {
     public class UpdateMovieDTO
     {
-        public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public decimal Rating { get; set; }
-        public ICollection<Guid> CountriesIds { get; set; }
-        public ICollection<Guid> StudioIds { get; set; } 
-        public ICollection<Guid> ActorIds { get; set; }  
-        public ICollection<Guid> GenreIds { get; set; }  
-        public string? UpdatedBy { get; set; }
+        public required Guid Id { get; set; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public required int Date { get; set; }
+        public decimal? Rating { get; set; }
+        public int? Views { get; set; }
+        public Guid DirectorId { get; set; }
+        public ICollection<Guid> StudioIds { get; set; } = new List<Guid>();
+        public ICollection<Guid> ActorIds { get; set; } = new List<Guid>();
+        public ICollection<Guid> GenreIds { get; set; } = new List<Guid>();
+        public ICollection<Guid> CountryIds { get; set; } = new List<Guid>();
+        public required string UpdatedBy { get; set; }
     }
 }

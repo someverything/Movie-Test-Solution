@@ -12,17 +12,18 @@ namespace MovieTestSolution.Entities.DTOs.MovieDTOs
 {
     public class GetMovieDTO
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int Views { get; set; }
-        public decimal Rating { get; set; }
-        public ICollection<GetCountryDTO> Countries { get; set; }
-        public ICollection<GetStudioDTO> Studios { get; set; }
-        public ICollection<GetActorDTO> Actors { get; set; }
-        public ICollection<GetGenreDTO> Genres { get; set; }
+        public required Guid Id { get; set; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public required int Date { get; set; }
+        public decimal? Rating { get; set; }
+        public int? Views { get; set; }
+        public string DirectorName { get; set; }
+        public ICollection<string> Studios { get; set; } = new List<string>();
+        public ICollection<string> Actors { get; set; } = new List<string>();
+        public ICollection<string> Genres { get; set; } = new List<string>();
+        public ICollection<string> Countries { get; set; } = new List<string>();
         public string CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
     }
 }

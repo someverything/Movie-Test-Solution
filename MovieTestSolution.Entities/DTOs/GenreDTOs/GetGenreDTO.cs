@@ -10,6 +10,5 @@ namespace MovieTestSolution.Entities.DTOs.GenreDTOs
     public class GetGenreDTO
     {
         public string Name { get; set; }
-        public GetMovieNameDTO MovieName { get; set; }
     }
 }

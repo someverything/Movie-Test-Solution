@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Business.Aиstract;
 using MovieTestSolution.DataAccess.Abstract;
+using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace MovieTestSolution.Business.Concrete
     public class ActorManager : IActorServices
     {
         private readonly IActorDAL _actorDAL;
-        private readonly ILogger<ActorManager> _logger;
+        private readonly ILogger<Actor> _logger;
         private readonly IMapper _mapper;
 
-        public ActorManager(IActorDAL actorDAL, ILogger<ActorManager> logger, IMapper mapper)
+        public ActorManager(IActorDAL actorDAL, ILogger<Actor> logger, IMapper mapper)
         {
             _actorDAL = actorDAL;
             _logger = logger;

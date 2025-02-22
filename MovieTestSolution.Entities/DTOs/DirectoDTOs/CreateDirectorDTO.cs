@@ -8,6 +8,7 @@ namespace MovieTestSolution.Entities.DTOs.DirectoDTOs
 {
     public class CreateDirectorDTO
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

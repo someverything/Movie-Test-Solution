@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MovieTestSolution.Core.DataAccess.EntityFramework;
-using MovieTestSolution.Core.Utilities.Results.Abstract;
-using MovieTestSolution.Core.Utilities.Results.Concrete.ErrorResult;
-using MovieTestSolution.Core.Utilities.Results.Concrete.SuccessResult;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.StudioDTOs;
@@ -13,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UtilitiesDLL.Results.Abstract;
+using UtilitiesDLL.Results.Concrete.ErrorResults;
+using UtilitiesDLL.Results.Concrete.SuccessResults;
 
 namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
 {
@@ -83,7 +83,7 @@ namespace MovieTestSolution.DataAccess.Concrete.EntityFramework
                 await transaction.CommitAsync();
 
                 _logger.LogInformation("Studio deleted successfully.");
-                return new SuccessResult("Studio deleted successfully.", true, System.Net.HttpStatusCode.OK);
+                return new SuccessResult("Studio deleted successfully.", System.Net.HttpStatusCode.OK);
             }
             catch (Exception ex)
             {

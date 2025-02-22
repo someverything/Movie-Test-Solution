@@ -8,7 +8,8 @@ namespace MovieTestSolution.Entities.DTOs.DirectoDTOs
 {
     public class UpdateDirectorDTO
     {
-        public required string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public ICollection<Guid>? MoviesId { get; set; }
     }
 }
