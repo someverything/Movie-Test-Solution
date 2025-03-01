@@ -16,8 +16,8 @@ namespace MovieTestSolution.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -70,7 +70,7 @@ namespace MovieTestSolution.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -84,8 +84,8 @@ namespace MovieTestSolution.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -99,7 +99,7 @@ namespace MovieTestSolution.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -109,25 +109,11 @@ namespace MovieTestSolution.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReleaseDate",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReleaseDate", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Studios",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -247,12 +233,11 @@ namespace MovieTestSolution.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Views = table.Column<int>(type: "int", nullable: true),
-                    ReleaseDateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReleaseDate = table.Column<DateOnly>(type: "date", nullable: false),
                     DirectorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -268,12 +253,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                         principalTable: "Directors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Movies_ReleaseDate_ReleaseDateId",
-                        column: x => x.ReleaseDateId,
-                        principalTable: "ReleaseDate",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,21 +307,21 @@ namespace MovieTestSolution.DataAccess.Migrations
                 name: "MovieGenres",
                 columns: table => new
                 {
-                    GenresId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MoviesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    MovieId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GenreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieGenres", x => new { x.GenresId, x.MoviesId });
+                    table.PrimaryKey("PK_MovieGenres", x => new { x.MovieId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_MovieGenres_Genres_GenresId",
-                        column: x => x.GenresId,
+                        name: "FK_MovieGenres_Genres_GenreId",
+                        column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MovieGenres_Movies_MoviesId",
-                        column: x => x.MoviesId,
+                        name: "FK_MovieGenres_Movies_MovieId",
+                        column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -422,9 +401,9 @@ namespace MovieTestSolution.DataAccess.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MovieGenres_MoviesId",
+                name: "IX_MovieGenres_GenreId",
                 table: "MovieGenres",
-                column: "MoviesId");
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_DirectorId",
@@ -432,9 +411,10 @@ namespace MovieTestSolution.DataAccess.Migrations
                 column: "DirectorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movies_ReleaseDateId",
+                name: "IX_Movies_Title",
                 table: "Movies",
-                column: "ReleaseDateId");
+                column: "Title",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MovieStudios_StudioId",
@@ -495,9 +475,6 @@ namespace MovieTestSolution.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Directors");
-
-            migrationBuilder.DropTable(
-                name: "ReleaseDate");
         }
     }
 }

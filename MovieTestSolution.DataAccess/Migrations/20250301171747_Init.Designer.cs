@@ -12,7 +12,7 @@ using MovieTestSolution.DataAccess.Concrete.EntityFramework;
 namespace MovieTestSolution.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250215205403_Init")]
+    [Migration("20250301171747_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("GenreMovie", b =>
-                {
-                    b.Property<Guid>("GenresId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MoviesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("GenresId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("MovieGenres", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -249,11 +234,13 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -274,7 +261,8 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -295,11 +283,13 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -320,7 +310,8 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -343,9 +334,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("DateId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -353,15 +341,16 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.Property<Guid>("DirectorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Rating")
+                    b.Property<decimal?>("Rating")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ReleaseDateId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateOnly>("ReleaseDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -376,7 +365,8 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.HasIndex("DirectorId");
 
-                    b.HasIndex("ReleaseDateId");
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Movies");
                 });
@@ -411,6 +401,21 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.ToTable("MovieCountries");
                 });
 
+            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieGenre", b =>
+                {
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GenreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MovieId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("MovieGenres");
+                });
+
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieStudio", b =>
                 {
                     b.Property<Guid>("MovieId")
@@ -426,26 +431,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.ToTable("MovieStudios");
                 });
 
-            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.ReleaseDate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReleaseDate");
-                });
-
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Studio", b =>
                 {
                     b.Property<Guid>("Id")
@@ -457,7 +442,8 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -465,21 +451,6 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Studios");
-                });
-
-            modelBuilder.Entity("GenreMovie", b =>
-                {
-                    b.HasOne("MovieTestSolution.Entities.Concrete.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieTestSolution.Entities.Concrete.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -541,15 +512,7 @@ namespace MovieTestSolution.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MovieTestSolution.Entities.Concrete.ReleaseDate", "ReleaseDate")
-                        .WithMany("Movies")
-                        .HasForeignKey("ReleaseDateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Director");
-
-                    b.Navigation("ReleaseDate");
                 });
 
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieActor", b =>
@@ -574,7 +537,7 @@ namespace MovieTestSolution.DataAccess.Migrations
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieCountry", b =>
                 {
                     b.HasOne("MovieTestSolution.Entities.Concrete.Country", "Country")
-                        .WithMany()
+                        .WithMany("MovieCountries")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -586,6 +549,25 @@ namespace MovieTestSolution.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+
+                    b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.MovieGenre", b =>
+                {
+                    b.HasOne("MovieTestSolution.Entities.Concrete.Genre", "Genre")
+                        .WithMany("MovieGenres")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MovieTestSolution.Entities.Concrete.Movie", "Movie")
+                        .WithMany("MovieGenres")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
 
                     b.Navigation("Movie");
                 });
@@ -614,9 +596,19 @@ namespace MovieTestSolution.DataAccess.Migrations
                     b.Navigation("MovieActors");
                 });
 
+            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Country", b =>
+                {
+                    b.Navigation("MovieCountries");
+                });
+
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Director", b =>
                 {
                     b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Genre", b =>
+                {
+                    b.Navigation("MovieGenres");
                 });
 
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Movie", b =>
@@ -625,12 +617,9 @@ namespace MovieTestSolution.DataAccess.Migrations
 
                     b.Navigation("MovieCountries");
 
-                    b.Navigation("MovieStudios");
-                });
+                    b.Navigation("MovieGenres");
 
-            modelBuilder.Entity("MovieTestSolution.Entities.Concrete.ReleaseDate", b =>
-                {
-                    b.Navigation("Movies");
+                    b.Navigation("MovieStudios");
                 });
 
             modelBuilder.Entity("MovieTestSolution.Entities.Concrete.Studio", b =>

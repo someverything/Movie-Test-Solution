@@ -13,10 +13,10 @@ namespace MovieTestSolution.Entities.Concrete
         public required string Description { get; set; }              
         public decimal? Rating { get; set; }                   
         public int? Views { get; set; }
-        public required int Date { get; set; }
+        public required DateOnly ReleaseDate { get; set; }
         public ICollection<MovieStudio> MovieStudios { get; set; }
         public ICollection<MovieActor> MovieActors { get; set; }
-        public ICollection<Genre> Genres { get; set; }
+        public ICollection<MovieGenre> MovieGenres { get; set; }
         public ICollection<MovieCountry> MovieCountries { get; set; }
         public Guid DirectorId { get; set; }
         public Director Director { get; set; }
