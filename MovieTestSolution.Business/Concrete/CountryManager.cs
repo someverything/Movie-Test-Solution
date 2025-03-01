@@ -19,7 +19,6 @@ namespace MovieTestSolution.Business.Concrete
         private readonly ICountryDAL _countryDAL;
         private readonly ILogger<Country> _logger;
         private readonly IMapper _mapper;
-
         public CountryManager(ICountryDAL countryDAL, ILogger<Country> logger, IMapper mapper)
         {
             _countryDAL = countryDAL;
@@ -36,7 +35,6 @@ namespace MovieTestSolution.Business.Concrete
         public async Task<IResult> DeleteAsync(Guid Id)
         {
             await _countryDAL.DeleteCountryAsync(Id);
-            _logger.LogInformation($"Country with Id {Id} deleted successfully.", Id);
             return new SuccessResult("Country deleted successfully!", System.Net.HttpStatusCode.OK);
 
         }
