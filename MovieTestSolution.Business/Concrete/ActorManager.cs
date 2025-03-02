@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
-using MovieTestSolution.Business.Aиstract;
+using MovieTestSolution.Business.Abstract;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.Entities.Concrete;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;

@@ -14,7 +14,7 @@ using UtilitiesDLL.Results.Concrete.SuccessResults;
 
 namespace MovieTestSolution.Business.Concrete
 {
-    public class StudioManager : IStudionServices
+    public class StudioManager : IStudioServices
     {
         private readonly IStudioDAL _studioDAL;
         private readonly ILogger<Studio> _logger;

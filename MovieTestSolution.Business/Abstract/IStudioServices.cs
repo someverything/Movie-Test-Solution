@@ -8,7 +8,7 @@ using UtilitiesDLL.Results.Abstract;
 
 namespace MovieTestSolution.Business.Abstract
 {
-    public interface IStudionServices
+    public interface IStudioServices
     {
         Task<IDataResult<CreateStudioDTO>> CreateAsync(CreateStudioDTO model);
         Task<IResult> UpdateAsync(Guid Id, UpdateStudioDTO model);

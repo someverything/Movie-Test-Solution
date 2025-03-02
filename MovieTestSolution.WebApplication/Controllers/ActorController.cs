@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MovieTestSolution.Business.Aиstract;
+﻿using Microsoft.AspNetCore.Mvc;
+using MovieTestSolution.Business.Abstract;
 using MovieTestSolution.Entities.DTOs.ActorsDTOs;
 
-namespace MovieTestSolution.WebApp.Controllers
+namespace MovieTestSolution.WebApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

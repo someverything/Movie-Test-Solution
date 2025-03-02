@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UtilitiesDLL.Results.Abstract;
 
-namespace MovieTestSolution.Business.Aиstract
+namespace MovieTestSolution.Business.Abstract
 {
     public interface IActorServices
     {

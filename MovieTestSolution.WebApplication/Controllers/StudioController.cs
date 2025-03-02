@@ -9,24 +9,24 @@ namespace MovieTestSolution.WebApplication.Controllers
     [ApiController]
     public class StudioController : ControllerBase
     {
-        private readonly IStudionServices _studionServices;
+        private readonly IStudioServices _studioServices;
 
-        public StudioController(IStudionServices studionServices)
+        public StudioController(IStudioServices studioServices)
         {
-            _studionServices = studionServices;
+            _studioServices = studioServices;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateStudioDTO model)
         {
-            await _studionServices.CreateAsync(model);
+            await _studioServices.CreateAsync(model);
             return Ok(model);
         }
 
         [HttpGet("{Id}")]
         public IActionResult GetById(Guid Id)
         {
-            var result = _studionServices.Get(Id);
+            var result = _studioServices.Get(Id);
             if (result == null) return NotFound();
             return Ok(result);
         }
@@ -34,21 +34,21 @@ namespace MovieTestSolution.WebApplication.Controllers
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            var result = await _studionServices.DeleteAsync(Id);
+            var result = await _studioServices.DeleteAsync(Id);
             return Ok(result);
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _studionServices.GetAll();
+            var result = _studioServices.GetAll();
             return Ok(result);
         }
 
         [HttpPut("{Id}")]
         public async Task<IActionResult> Update(Guid Id, UpdateStudioDTO model)
         {
-            await _studionServices.UpdateAsync(Id, model);
+            await _studioServices.UpdateAsync(Id, model);
             return Ok(model);
         }
     }

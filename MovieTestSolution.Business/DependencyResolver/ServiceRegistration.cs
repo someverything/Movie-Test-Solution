@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MovieTestSolution.Business.Abstract;
-using MovieTestSolution.Business.Aиstract;
+using MovieTestSolution.Business.Abstract;
 using MovieTestSolution.Business.Concrete;
 using MovieTestSolution.DataAccess.Abstract;
 using MovieTestSolution.DataAccess.Concrete.EntityFramework;
@@ -25,7 +25,7 @@ namespace MovieTestSolution.Business.DependencyResolver
             services.AddScoped<ICountryServices, CountryManager>();
 
             services.AddScoped<IStudioDAL, EFStudioDAL>();
-            services.AddScoped<IStudionServices, StudioManager>();
+            services.AddScoped<IStudioServices, StudioManager>();
 
             services.AddScoped<IDirectorDAL, EFDirectorDAL>();
             services.AddScoped<IDirectorServices, DirectorManager>();

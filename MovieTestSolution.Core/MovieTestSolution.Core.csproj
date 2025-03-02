@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
     <Folder Include="Utilities\Messages\" />
     <Folder Include="Utilities\Security\" />
   </ItemGroup>
